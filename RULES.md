@@ -84,9 +84,10 @@ MODE: observe
 ■ 기사 요약 (기간 내, 건당 3줄 이내, URL)   …
 ■ 엑셀 반영                                 observe: "제안: 시트!셀 현재값 → 제안값, 근거 URL" / edit: PR 링크 + 바뀐 셀
 ■ 현황판                                    https://heechaneom.github.io/hems-tariff/  (현재 vN, 변경 없음|갱신됨)
+■ 엑셀 원본 (항상 최신)                      https://github.com/heechaneom/hems-tariff/raw/main/data/한전_전기요금_2026_HEMS정리.xlsx  — 버전·변경 내역은 파일 안 '변경이력' 시트 (vN은 data/data.json의 version.ver로 확인)
 ■ 참고(기간 외)                             (있을 때만 1줄씩)
 ```
-HTML로 보낼 때는 ■ 항목을 굵은 소제목, 건별은 불릿, URL은 링크로. 색상·이미지 불필요.
+HTML로 보낼 때는 ■ 항목을 굵은 소제목, 건별은 불릿, URL은 링크로(현황판·엑셀 링크는 반드시 클릭 가능한 <a> 태그). 색상·이미지 불필요.
 
 ## 6. 절대 하지 말 것
 - 언론 기사만으로 단가 변경
