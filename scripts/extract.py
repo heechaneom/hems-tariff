@@ -81,6 +81,16 @@ def main():
     D['dr'] = [dict(name=ws[f'A{r}'].value, region=ws[f'B{r}'].value, what=ws[f'C{r}'].value, state=ws[f'D{r}'].value, src=ws[f'F{r}'].value) for r in (19, 20)]
     D['ess'] = [dict(period=ws[f'A{r}'].value, energy=ws[f'B{r}'].value, base=ws[f'C{r}'].value, target=ws[f'D{r}'].value, state=ws[f'E{r}'].value, src=ws[f'F{r}'].value) for r in (6, 7, 8)]
 
+    # DR 현황판 키값 (DR_수요반응 시트 H절: '키','값' 열)
+    ws = wb['DR_수요반응']
+    kv = {}; on = False
+    for r in ws.iter_rows(values_only=True):
+        if r[0] and str(r[0]).startswith('H. 현황판 키값'):
+            on = True; continue
+        if on and r[0] and r[0] != '키':
+            kv[str(r[0])] = r[1]
+    D['drkv'] = kv
+
     # 출처
     ws = wb['출처']
     D['sources'] = {ws[f'A{r}'].value: dict(name=ws[f'B{r}'].value, org=ws[f'C{r}'].value, date=str(ws[f'D{r}'].value), grade=ws[f'E{r}'].value, url=ws[f'F{r}'].value)

@@ -645,8 +645,8 @@ function regionCard(){
     ['계시별 최대부하 (평일)','여름·봄·가을 15~21 / 겨울 09~12·16~19','16~22 (전 계절)'],
     ['주택용 계시별 가입','인증 지열·공기열 설치 가구 (2026.4.1~)','주거용 전 가구 (2021.9.1~)'],
     ['주말 할인 (산업을·EV)','적용','적용 (지역 제한 없음)'],
-    ['플러스DR','2024.3 육지 신설 · 50원/kWh','2021.1 제주 신설 · 시장 분리 · 96원/kWh'],
-    ['국민DR 연간 기본정산 단가','67,277원/kW (2025)','76,562원/kW (2025, +14%)'],
+    ['플러스DR','2024.3 육지 신설 · 50원(휴일 61.35)/kWh','2021.1 제주 신설 · 시장 분리 · 76원/kWh'],
+    ['국민DR 연간 기본정산 단가','65,760원/kW (2026)','74,771원/kW (2026, +14%)'],
     ['히트펌프 보조금','산업부 전국 사업','도 사업: 최대 980만원, 태양광 가구 우선'],
   ];
   return `
@@ -722,13 +722,15 @@ function hpCard(season){
 /* ---------- DR 카드 ---------- */
 function drCard(){
   const jeju=S.region==='제주';
-  const kook={rbp:jeju?76562:67277, avg:1625, cust:89973};
-  const plus={price:jeju?96:50, cust:jeju?1573:43061, hours:jeju?'—':'63h (2025, 3~6월)'};
+  const K=DATA.drkv||{};
+  const kook={rbp:jeju?K['국민DR_RBP_제주']:K['국민DR_RBP_육지'], avg:K['국민DR_실적평균단가'], cust:K['국민DR_참여고객'], perf:K['국민DR_실적문구']};
+  const plus={price:jeju?K['플러스DR_단가_제주']:K['플러스DR_단가_육지_평일'], hol:K['플러스DR_단가_육지_휴일'], cust:jeju?K['플러스DR_고객_제주']:K['플러스DR_고객_육지'], hours:jeju?K['플러스DR_실적문구_제주']:K['플러스DR_실적문구_육지']};
+  const asof=K['기준월']||'';
   const bar=(s,e,cls,label)=>`<div style="position:relative;height:22px;border:1px solid var(--line);border-radius:4px;background:var(--surface-3);margin:4px 0"><div style="position:absolute;left:${s/24*100}%;width:${(e-s)/24*100}%;top:0;bottom:0;background:var(--${cls});opacity:.85;border-radius:3px;display:grid;place-items:center;color:#fff;font-size:10.5px;font-weight:600">${label}</div></div>`;
   const ticks=[0,3,6,9,12,15,18,21,24].map(x=>`<span>${x}</span>`).join('');
   return `
   <div class="card wide">
-    <div class="card-h"><h3>수요반응(DR) — 가정이 붙일 수 있는 두 신호 · ${S.region}</h3><span class="tag">DR_수요반응 시트 · 전력시장운영규칙 제12장 · KPX 2025.12 현황</span></div>
+    <div class="card-h"><h3>수요반응(DR) — 가정이 붙일 수 있는 두 신호 · ${S.region}</h3><span class="tag">DR_수요반응 시트 · 전력시장운영규칙 제12장 · KPX 현황 ${asof} 기준</span></div>
     <div class="strip" style="margin-bottom:10px"><b>한전이 아니라 전력거래소 시장</b><span style="font-size:11.5px">가정은 KPX와 직접 거래 불가(전력거래자 등록은 수요관리사업자만, 제12.1.3조) → 수요관리사업자(앱)의 고객으로 참여. KPX 정산금은 사업자에게 가고, 가정은 사업자 배분(현금·포인트)을 받음. 국민DR·플러스DR은 중복 가입 가능.</span></div>
     <div style="margin:6px 0 2px;font-size:11.5px;color:var(--ink-3)">발령 가능 시간창 (24h)</div>
     ${bar(6,21,'peak','국민DR 감축 — 영업일 06~21시, 1시간 단위, 30분 전 통보')}
@@ -737,19 +739,19 @@ function drCard(){
     <div class="minirow">
       <div class="mini"><h4>국민DR (에너지쉼표) · 감축</h4><table><tbody>
         <tr><td>자격</td><td style="font-family:inherit">주택용 전 가구 자동 해당</td></tr>
-        <tr><td>2025 연간 기본정산 단가</td><td>${won(kook.rbp)} 원/kW</td></tr>
-        <tr><td>2025 실적 평균 (KPX→사업자)</td><td>≈ ${won(kook.avg)} 원/kWh</td></tr>
-        <tr><td>2025 발령</td><td>45시간 · 798MWh</td></tr>
-        <tr><td>참여 가구 (2026.2)</td><td>${won(kook.cust)}</td></tr>
+        <tr><td>2026 연간 기본정산 단가</td><td>${won(kook.rbp)} 원/kW</td></tr>
+        <tr><td>실적 평균 (KPX→사업자)</td><td>≈ ${won(kook.avg)} 원/kWh</td></tr>
+        <tr><td>발령 실적</td><td style="font-family:inherit;font-size:11.5px">${kook.perf}</td></tr>
+        <tr><td>참여 가구 (${asof})</td><td>${won(kook.cust)}</td></tr>
         <tr><td>CBL</td><td style="font-family:inherit">최근 영업일 평균 (Mid 4/6·8/10)</td></tr>
       </tbody></table></div>
       <div class="mini"><h4>플러스DR · 증대</h4><table><tbody>
         <tr><td>신설</td><td style="font-family:inherit">${jeju?'2021.1 (2022.5 시장 분리)':'2024.3.28'}</td></tr>
-        <tr><td>2025 단가</td><td>${plus.price} 원/kWh</td></tr>
-        <tr><td>2025 발령</td><td>${plus.hours}</td></tr>
-        <tr><td>참여 고객 (2026.2)</td><td>${won(plus.cust)}</td></tr>
+        <tr><td>2026 단가</td><td>${plus.price} 원/kWh${jeju?'':' · 봄·가을 휴일 '+plus.hol}</td></tr>
+        <tr><td>발령 실적</td><td style="font-family:inherit;font-size:11.5px">${plus.hours}</td></tr>
+        <tr><td>참여 고객 (${asof})</td><td>${won(plus.cust)}</td></tr>
         <tr><td>HEMS 용도</td><td style="font-family:inherit">EV·ESS 충전, 온수·축열 선가동</td></tr>
-        <tr><td>EV 30kWh 이동 시</td><td>≈ ${won(plus.price*30)} 원/회</td></tr>
+        <tr><td>EV 30kWh 이동 시</td><td>≈ ${won(plus.price*30)}${jeju?'':' ~ '+won(plus.hol*30)} 원/회</td></tr>
       </tbody></table></div>
       <div class="mini"><h4>혼동 주의</h4><table><tbody>
         <tr><td style="font-family:inherit">한전 에너지캐시백</td><td style="font-family:inherit">DR 아님 (월 절감 보상)</td></tr>
@@ -758,7 +760,7 @@ function drCard(){
         <tr><td style="font-family:inherit">한전 긴급절전</td><td style="font-family:inherit">500kW 이상 사업장만</td></tr>
       </tbody></table></div>
     </div>
-    <div class="srcrow">${srcChip('S35 제12.1.1조·제12.4.3.1조·제12.7절 / 확정')}${srcChip('S33 KPX 2025.12 현황 p.6·11·19·20 / 확정')}${srcChip('S33 역산 평균 1,625원/kWh / 추정')}</div>
+    <div class="srcrow">${srcChip('S35 제12.1.1조·제12.4.3.1조·제12.7절 / 확정')}${srcChip('S39 KPX 2026.6 현황 p.5·10·17~19 / 확정')}${srcChip('S39 역산 평균 '+won(kook.avg)+'원/kWh / 추정')}</div>
   </div>`;
 }
 
@@ -766,8 +768,8 @@ function drCard(){
 /* ---------- DR 보기 전용 카드 ---------- */
 const DRX = {
   kook:{
-    육지:{rbp:'67,277원/kW (12월 67,253)', region:'수도권 / 비수도권 자원'},
-    제주:{rbp:'76,562원/kW (육지 +14%)', region:'제주권 자원'},
+    육지:{rbp:'2026년 65,760원/kW (2025 67,277)', region:'수도권 / 비수도권 자원'},
+    제주:{rbp:'2026년 74,771원/kW (육지 +14%)', region:'제주권 자원'},
     rows:[
       ['참여 자격','① 계약전력 200kW 이하 고객 ② 주택용 전 가구 ③ 집합건물(아파트) 개별세대. 충전사업자용 EV 요금 사용자는 제외','제12.1.1조 4호'],
       ['참여 경로','KPX와 직접 거래 불가(전력거래자 등록은 사업자만). 수요관리사업자(2026.2 기준 12개) 앱에서 가입 → 사업자가 KPX에 고객 등록. 신청 매월 15~20일, 익월 1일 적용','제12.2.2조 ①3, 제12.2.3조 ①2'],
@@ -776,13 +778,13 @@ const DRX = {
       ['감축시험','그 달 발령이 없으면 마지막 영업일까지 1회, 1시간','제12.3.2.1조 ①3'],
       ['기준부하(CBL)','별표28 중 KPX가 매월 지정 — Mid(4/6): 최근 영업일 6일 중 최대·최소 1일 제외 4일 평균 / Mid(8/10). 자원 단위로 고객 사용량 합산','제12.5.2.1조 ①2, 별표28'],
       ['정산 (KPX→사업자)','기본정산금 없음. 실적 = 감축량 × {연간 기본정산 단가(RBP) ÷ 최대감축시간(MRT) + MGP} × 반응시간 가중치','별표26 2.가'],
-      ['2025 실적','45시간 발령 · 798,187kWh · 정산금 12.97억원 → 평균 ≈ 1,625원/kWh. 참여 89,973가구(2026.2), 12사업자 214자원','S33 p.6·19'],
+      ['실적','2025: 45시간 · 798,187kWh · 12.97억원 (≈1,625원/kWh) / 2026 1~6월: 38시간 · 682,625kWh · 10.59억원 (≈1,552원/kWh). 참여 100,789가구(2026.8), 12사업자 218자원','S39 p.5·18'],
       ['가정 보상 (사업자→가정)','사업자 계약별 현금·포인트·기부. 공통값 없음. 과거 안내 1,300~1,600원/kWh(2022). SmartThings·ThinQ 연동 자동참여 사업자 있음','S36·S37 / 확인필요'],
     ]
   },
   plus:{
-    육지:{born:'2024.3.28 신설', price:'50원/kWh (2025 연중 동일)', mech:'KPX가 매월 공지하는 기준 태양광이용률·수요구간별 증대필요량에 따라 배분(0.1MW씩 우선 배분 후 비례). 육지권 세부 지역별 등록', perf:'2025: 16일 63시간 30,725MWh 13.1억원 (3~6월). 7월 이후·12월 실적 없음. 43,061고객 · 2,110MW'},
-    제주:{born:'2021.1.1 신설, 2022.5 시장 분리', price:'95~97원/kWh (2025)', mech:'익일 하루전에너지가격 ≤ 0원이고 예측 출력제어량 ≥ 기준출력제어량일 때 낙찰. 하루전 + 실시간(당일) 시장 병행', perf:'2021~2023 하루전 324MWh·4.8억, 실시간 339MWh·5.8억. 2024~25 실적은 보고서 표 미수록. 1,573고객'},
+    육지:{born:'2024.3.28 신설', price:'평일 50원/kWh · 봄·가을 공휴일·토요일·설·추석 61.35원/kWh (2026.4.16~, 규칙 26-긴급4차)', mech:'KPX가 매월 공지하는 기준 태양광이용률·수요구간별 증대필요량에 따라 배분(0.1MW씩 우선 배분 후 비례). 육지권 세부 지역별 등록', perf:'2025: 16일 63시간 30,725MWh 13.1억 → 2026 3~6월: 26일 104시간 47,561MWh 21.6억 (1.7배, 주말 낮 집중). 42,651고객 · 2,110MW (2026.8)'},
+    제주:{born:'2021.1.1 신설, 2022.5 시장 분리', price:'2026.1~5월 96원 → 6월 76원/kWh', mech:'익일 하루전에너지가격 ≤ 0원이고 예측 출력제어량 ≥ 기준출력제어량일 때 낙찰. 하루전 + 실시간(당일) 시장 병행', perf:'2021~2023 하루전 324MWh·4.8억, 실시간 339MWh·5.8억. 2024~26 실적은 보고서 표 미수록. 1,310고객 (2026.8)'},
     rows:[
       ['목적','태양광 잉여로 출력제어가 예상될 때 수요를 늘려 흡수 — "더 쓰면 보상"(전력부하증대량 거래)','제12.1.1조 6호'],
       ['참여','규모 제한 없음(고객 1개 이상). 다른 DR과 중복 등록 가능 → 국민DR 가정도 동시 참여. 피크저감 ESS는 ESS 사용량만 계량','제12.2.2조 ③, 제12.2.3조 ③2·4'],
@@ -792,8 +794,8 @@ const DRX = {
     ]
   },
   types:[
-    ['국민DR','가정·200kW 이하 고객 1시간 감축','2019.11','수도권/비수도권/제주권','제한 없음 (고객 10+)','영업일 06~21시, 30분 전','실적급 단가 × 감축량','★ 가정 대상'],
-    ['플러스DR','잉여 재생에너지 시 수요 증대','2021.1 제주 → 2024.3 육지','육지권(세부지역)/제주권','제한 없음 (고객 1+)','09~18시 입찰, 하루 전','증대량 × 50/96원','★ 가정 대상'],
+    ['국민DR','가정·200kW 이하 고객 1시간 감축','2019.11','수도권/비수도권/제주권','제한 없음 (고객 10+)','영업일 06~21시, 30분 전','실적급 단가 × 감축량 (2026 RBP 65,760/74,771)','★ 가정 대상'],
+    ['플러스DR','잉여 재생에너지 시 수요 증대','2021.1 제주 → 2024.3 육지','육지권(세부지역)/제주권','제한 없음 (고객 1+)','09~18시 입찰, 하루 전','증대량 × 50(휴일 61.35)/76원','★ 가정 대상'],
     ['표준DR','대형 사업장 의무감축 + 자발적 입찰','2014.11','수도권/비수도권','10MW 초과~500MW','영업일 09~20시, 60분 전','기본(원/kW-월)+실적(SMP·MGP)','✕'],
     ['중소형DR','중소 사업장 (산업용 2MW 초과 제외)','2016.12','수도권/비수도권','2MW 초과~50MW','동일','동일','✕'],
     ['제주DR','제주 사업장','2022.5','제주권','2MW 초과~500MW','영업일 10~21시','제주 SMP·MGP','✕'],
@@ -803,10 +805,10 @@ const DRX = {
     ['한전 긴급절전','한전 요청 시 500kW 이상 감축 약정','—','전국 (제주 100kW)','A형 3,000kW / B형 500kW','1시간 전, 1~4시간','기본 500원/kW·년 + 실적','✕'],
   ],
   region:[
-    ['국민DR 단가','RBP 67,277원/kW (2025)','76,562원/kW (+14%)'],
-    ['플러스DR 단가','50원/kWh','95~97원/kWh (약 2배)'],
+    ['국민DR 단가','RBP 65,760원/kW (2026)','74,771원/kW (+14%)'],
+    ['플러스DR 단가','평일 50 · 봄·가을 휴일 61.35원/kWh','76원/kWh (2026.6; 1~5월 96)'],
     ['플러스DR 낙찰 방식','태양광이용률·수요구간별 증대필요량 (KPX 매월 공지)','출력제어 예측량 + 하루전가격 ≤0원, 실시간시장 병행'],
-    ['플러스DR 발령 빈도','2025년 3~6월 63시간','출력제어 잦아 봄·가을·겨울 빈번 (2023 실시간 114시간)'],
+    ['플러스DR 발령 빈도','2026 3~6월 104시간 (2025 63시간), 주말 낮 집중','출력제어 잦아 봄·가을·겨울 빈번 (2023 실시간 114시간)'],
     ['사업장 DR','표준·중소형 09~20시, 주파수DR 육지만','제주DR 10~21시, 2MW 초과'],
     ['한전 긴급절전 문턱','500kW','100kW'],
     ['수도권/비수도권','자원 등록 구분 있음 (계통 혼잡 대응, 단가는 2025 육지 단일 공표)','해당 없음'],
@@ -831,7 +833,7 @@ function plusCard(){
     <div class="strip ok" style="margin-bottom:10px"><b>${S.region} 낙찰 방식</b><span style="font-size:11.5px">${R.mech}</span></div>
     <table class="rt"><thead><tr><th>항목</th><th style="text-align:left">내용</th><th style="text-align:left">근거</th></tr></thead><tbody>
       ${P.rows.map(r=>`<tr><td>${r[0]}</td><td style="text-align:left;font-family:inherit;line-height:1.5">${r[1]}</td><td style="text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3)">${r[2]}</td></tr>`).join('')}
-      <tr><td>실적·규모</td><td style="text-align:left;font-family:inherit;line-height:1.5">${R.perf}</td><td style="text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3)">S33 p.6·20~22</td></tr>
+      <tr><td>실적·규모</td><td style="text-align:left;font-family:inherit;line-height:1.5">${R.perf}</td><td style="text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-3)">S39 p.5·19~20</td></tr>
     </tbody></table>
     <p class="assume" style="margin-top:10px"><b>HEMS 포인트.</b> 하루 전 낙찰 → 전날 저녁에 다음 날 09~18시 중 증대 시간 확정. EV·ESS 충전, 전기온수기·히트펌프 축열을 그 시간으로 이동. 단가는 낮지만 계시별 중간부하·한전 주말 낮 50% 할인과 겹치면 합산 효과. CBL 대비 "평소보다 더 쓴 양"만 인정.</p>
   </div>`;
@@ -857,18 +859,18 @@ function drRegionCard(){
   </div>`;
 }
 function drHemsCard(){
-  const jeju=S.region==='제주', pp=jeju?96:50;
+  const jeju=S.region==='제주', K=DATA.drkv||{}, pp=jeju?K['플러스DR_단가_제주']:K['플러스DR_단가_육지_평일'], ph=K['플러스DR_단가_육지_휴일'];
   return `
   <div class="card">
     <div class="card-h"><h3>HEMS 설계 — 입력값·수익 감각</h3><span class="tag">DR_수요반응 시트 G절</span></div>
     <dl class="kv">
       <dt>필수 입력</dt><dd style="font-weight:400">사업자 계약·배분율 / 자원 지역 / CBL 방식(월별) / 발령 채널(앱·OpenADR) / 1시간 계량 / 제어 가능 가전 / 중복 여부</dd>
-      <dt>국민DR 수익</dt><dd style="font-weight:400">1시간 1kWh 감축 ≈ 1,600원(KPX 정산, 2025 평균). 연 45시간 전부 1kWh면 ≈ 7만원 → 사업자 배분 후 일부</dd>
-      <dt>플러스DR 수익</dt><dd style="font-weight:400">EV 30kWh 이동 = ${pp}×30 = ${won(pp*30)}원/회. 요금 측 이득(경부하·주말 할인)이 DR 정산보다 큼</dd>
+      <dt>국민DR 수익</dt><dd style="font-weight:400">1시간 1kWh 감축 ≈ ${won(K['국민DR_실적평균단가'])}원(KPX 정산, 2026 상반기 평균). 연 40~45시간 전부 1kWh면 ≈ 6~7만원 → 사업자 배분 후 일부</dd>
+      <dt>플러스DR 수익</dt><dd style="font-weight:400">EV 30kWh 이동 = ${pp}×30 = ${won(pp*30)}원/회${jeju?'':' (봄·가을 휴일 '+ph+'×30 = '+won(ph*30)+'원)'}. 2026 상반기 육지 104시간 발령. 요금 측 이득(경부하·주말 할인)이 DR 정산보다 큼</dd>
       <dt>혼동 주의</dt><dd style="font-weight:400">캐시백 ≠ DR · 주말 50% ≠ 플러스DR · 계시별 가입과 DR 무관 · 국민DR 단가는 사업자 몫 포함</dd>
       <dt>확인필요</dt><dd style="font-weight:400;color:var(--warn)">2026 RBP·MRT·플러스DR 단가(KPX 월간 보고서), 사업자별 배분율, 제주 플러스DR 2024~25 실적</dd>
     </dl>
-    <div class="srcrow">${srcChip('S35 제12장 / 확정')}${srcChip('S33 KPX 2025.12 현황 / 확정')}${srcChip('S33 역산·설계 판단 / 추정')}</div>
+    <div class="srcrow">${srcChip('S35 제12장 / 확정')}${srcChip('S39 KPX 2026.6 현황 / 확정')}${srcChip('S39 역산·설계 판단 / 추정')}</div>
   </div>`;
 }
 
