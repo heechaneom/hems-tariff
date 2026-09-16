@@ -1,6 +1,6 @@
 # 한전 기본공급약관·시행세칙 게시판
 # https://www.kepco.co.kr/home/disclosure/regulations/internalrule/boardList.do
-# 2026-09-16 10:44 KST status=200
+# 2026-09-16 10:56 KST status=200
 
 사규 및 하위 규범 | 내부규정 | 정보공개 | 한국전력공사 
  본문 바로가기 

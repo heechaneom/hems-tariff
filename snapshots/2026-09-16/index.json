@@ -1,6 +1,6 @@
 {
  "date": "2026-09-16",
- "collected_at": "2026-09-16 10:44 KST",
+ "collected_at": "2026-09-16 10:56 KST",
  "items": [
   {
    "name": "kepco_notice",
@@ -35,7 +35,7 @@
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%A0%84%EA%B8%B0%EC%9A%94%EA%B8%88",
    "kind": "html",
    "status": 200,
-   "bytes": 8237,
+   "bytes": 8291,
    "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
@@ -44,7 +44,7 @@
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%88%98%EC%9A%94%EB%B0%98%EC%9D%91",
    "kind": "html",
    "status": 200,
-   "bytes": 8281,
+   "bytes": 8335,
    "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
@@ -53,7 +53,7 @@
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%97%90%EB%84%88%EC%A7%80%EC%BA%90%EC%8B%9C%EB%B0%B1",
    "kind": "html",
    "status": 200,
-   "bytes": 6970,
+   "bytes": 7024,
    "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
