@@ -22,8 +22,15 @@ MODE: observe
 - `news/last_run.txt` — 마지막 실행 시각 (검색 기간의 시작점)
 - `archive/YYYY-MM-DD_vN.xlsx` — 버전 올릴 때 이전 엑셀 사본
 - `evidence/` — 원문 PDF 등
+- `snapshots/YYYY-MM-DD/` — GitHub Actions가 매일 08:30 KST 수집한 1차 원문 게시판 텍스트 (§1-0)
 
 준비: `pip install openpyxl` (없으면).
+
+## 1-0. 원문 스냅샷 먼저 읽기 (클라우드에서 한전·전력거래소·정부 사이트 직접 접속이 차단되므로)
+- GitHub Actions가 매일 08:30 KST에 `scripts/collect.py`로 1차 원문 게시판을 받아 `snapshots/YYYY-MM-DD/*.txt`에 저장한다 (`index.json`에 URL·상태·제목).
+- 루틴은 **먼저 `snapshots/` 중 가장 최신 날짜 폴더를 읽고**, 어제 폴더가 있으면 둘을 비교해 새로 올라온 게시글(날짜·제목)을 찾는다. 이것이 §1 표의 1·2·5·6번 확인 수단이다.
+- 스냅샷은 목록(제목·게시일)까지만 담는다. 본문이 필요하면 WebFetch를 시도하고, 차단되면 WebSearch 스니펫으로 보완한 뒤 메일에 "본문 미확인 — 담당자 확인 필요 + URL"로 표시한다. 절대 추측으로 본문을 채우지 않는다.
+- 스냅샷 폴더가 오늘 날짜로 없으면(수집 실패) 메일 상단에 "원문 스냅샷 없음(수집 실패)"라고 적고 WebSearch로만 진행한다.
 
 ## 1. 감시 대상 (매일 확인, 이 순서로)
 | # | 무엇 | 어디서 | 바뀌면 엑셀 어디 |
