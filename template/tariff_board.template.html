@@ -887,6 +887,62 @@ function historyCard(){
   </div>`;
 }
 
+
+/* ---------- 일반용 안내 카드 (갑/을 · 시간대 적용 여부 · 전압 · 선택Ⅰ~Ⅳ) ---------- */
+function generalGuideCard(season){
+  const col=season.col, name={s:'여름',sa:'봄·가을',w:'겨울'}[col];
+  const g2=DATA.rates.filter(r=>r.kind==='일반용(갑)Ⅱ'&&r.volt==='고압A');
+  const pick=(sel,band)=>{const r=g2.find(x=>x.sel===sel&&x.band===band);return r?r[col]:'—';};
+  const base=sel=>{const r=g2.find(x=>x.sel===sel);return r?won(r.base):'—';};
+  const tou=sel=>`경 ${pick(sel,'경부하')} / 중 ${pick(sel,'중간부하')} / 최 ${pick(sel,'최대부하')}`;
+  const flat=sel=>pick(sel,'계절별 단일')+' 단일';
+  const th=(...h)=>`<thead><tr>${h.map((x,i)=>`<th style="text-align:${i===0?'left':'left'}">${x}</th>`).join('')}</tr></thead>`;
+  const td=(...c)=>`<tr>${c.map((x,i)=>`<td style="text-align:left;font-family:inherit;font-size:12.5px;line-height:1.5;${i===0?'font-weight:600;white-space:nowrap':''}">${x}</td>`).join('')}</tr>`;
+  return `
+  <div class="card wide">
+    <div class="card-h"><h3>일반용 읽는 법 — 갑/을, 시간대 적용 여부, 전압, 선택Ⅰ~Ⅳ</h3><span class="tag">계약종별_쉬운설명 시트 A·B·C절 · ${name} 단가</span></div>
+
+    <p class="sub" style="margin:0 0 6px"><b>갑 / 을 = 크기.</b> 갑은 계약전력 300kW 미만(상가·사무실·소형 건물), 을은 300kW 이상(대형 빌딩·호텔·백화점). 을은 계시별이 필수이고 최대부하 단가가 갑Ⅱ보다 높아 피크 관리가 더 중요.</p>
+    <div class="minirow" style="margin-top:6px">
+      <div class="mini">
+        <h4>① 일반용 안의 부류 — 이 시간대 표를 쓰나?</h4>
+        <table class="rt">${th('부류','요금 방식','시간대 표')}<tbody>
+          ${td('일반용(갑)Ⅰ <span class="na">(저압 상가·사무실 대부분)</span>','계절별 단일요금 — 낮이든 밤이든 그 계절 단가 하나','✕ 시간대 없음')}
+          ${td('일반용(갑)Ⅱ 선택Ⅲ·Ⅳ','계시별을 포기하고 갑Ⅰ과 같은 단일요금 (2026.6.1 신설)','✕')}
+          ${td('일반용(갑)Ⅱ 선택Ⅰ·Ⅱ <span class="na">(시간대 계량기 설치)</span>','경·중간·최대부하로 단가가 갈림','○')}
+          ${td('일반용(을) <span class="na">(300kW 이상)</span>','계시별 필수','○')}
+        </tbody></table>
+      </div>
+      <div class="mini">
+        <h4>② 저압 / 고압A / 고압B — 받는 전압</h4>
+        <table class="rt">${th('구분','공급 전압','누가 받나')}<tbody>
+          ${td('저압','220V / 380V','일반 주택, 소규모 상가 — 전봇대 변압기에서 바로')}
+          ${td('고압A','3.3~66kV <span class="na">(거의 22.9kV)</span>','아파트 단지, 중소형 빌딩, 공장 대부분 — 자체 수전실')}
+          ${td('고압B','154kV','대형 공장, 대학·병원 캠퍼스')}
+          ${td('고압C','345kV 이상','초대형 공장 (산업용(을)에만)')}
+        </tbody></table>
+        <p class="hint" style="margin:8px 0 0">전압이 높을수록 변압 설비를 고객이 부담하므로 단가가 조금 싸다. 가정은 저압 또는 고압A(아파트)뿐이고, 아파트 세대 청구는 단지가 고압A로 받아도 주택용 고압 누진.</p>
+      </div>
+    </div>
+
+    <div class="mini" style="margin-top:14px">
+      <h4>③ 일반용(갑)Ⅱ 고압A 선택Ⅰ~Ⅳ — 같은 고객이 고르는 4가지 옵션 (${name} 단가, 원/kW·원/kWh)</h4>
+      <table class="rt">${th('선택','기본요금','전력량요금','성격')}<tbody>
+        ${td('Ⅰ',base('Ⅰ'),tou('Ⅰ'),'계시별 기본형')}
+        ${td('Ⅱ',base('Ⅱ')+' <span class="na">(+1,060)</span>',tou('Ⅱ')+' <span class="na">(−5.3)</span>','계시별, 고정비↑ 변동비↓ → 많이 쓰는 곳. 계약 1kW당 월 200kWh 이상(이용률 ≈28%)이면 Ⅱ 유리')}
+        ${td('Ⅲ',base('Ⅲ'),flat('Ⅲ'),'2026.6.1 신설. 시간대 이동이 어려운 곳이 계시별을 포기하는 옵션 (갑Ⅰ과 동일 단가)')}
+        ${td('Ⅳ',base('Ⅳ'),flat('Ⅳ'),'Ⅲ의 고사용량 버전')}
+      </tbody></table>
+      <div style="margin:10px 0 0;font-size:12.5px;line-height:1.6;color:var(--ink-2)">
+        <p style="margin:0 0 6px"><b>Ⅰ vs Ⅱ (또는 Ⅲ vs Ⅳ)</b>: 번호가 올라가면 kW당 1,060원 더 내고 kWh당 5.3원 덜 냅니다 → 계약 1kW당 월 200kWh 이상(이용률 약 28%) 쓰면 Ⅱ가 유리. 24시간 돌아가는 편의점·데이터룸은 Ⅱ, 낮에만 여는 사무실은 Ⅰ.</p>
+        <p style="margin:0 0 6px"><b>Ⅰ·Ⅱ vs Ⅲ·Ⅳ</b>: 2026년 개편으로 최대부하가 15~21시 저녁으로 옮겨가면서, 저녁 장사하는 식당·상가는 계시별이 오히려 손해가 됐어요. 그래서 한전이 "시간대 안 보고 계절 단일로 낼래?" 하는 Ⅲ·Ⅳ를 만들었습니다. 2026년 6~11월분은 한전이 Ⅰ↔Ⅲ, Ⅱ↔Ⅳ 중 싼 쪽을 자동으로 적용해 주고, 12월분부터 고객이 직접 선택.</p>
+        <p style="margin:0"><b>HEMS 관점</b>: Ⅰ·Ⅱ만 부하 이동 효과가 있고, Ⅲ·Ⅳ는 시간대가 없으니 절감 레버가 "덜 쓰기"뿐입니다.</p>
+      </div>
+    </div>
+    <div class="srcrow">${srcChip('A1 제57조·제23조·별표1 1.나 / 확정')}${srcChip('A1 부칙 2026.5.22 (선택Ⅲ·Ⅳ) / 확정')}</div>
+  </div>`;
+}
+
 /* ---------- render ---------- */
 function render(){
   $('#verLabel').textContent=DATA.version.ver; $('#dateLabel').textContent=DATA.version.date;
@@ -904,7 +960,7 @@ function render(){
   if(S.view==='이력·용어'){ cards=policyCard()+incentiveCard()+regionCard()+glossaryCard()+historyCard(); $('#grid').innerHTML=cards; bind(); return; }
   if(S.kind==='주택용'){ cards=progCard(season)+touCard(season)+houseTouCard(season)+hpCard(season); }
   else if(S.kind==='EV 충전전력'){ cards=touCard(season)+evCard(season); }
-  else { cards=touCard(season)+rateCard(season); }
+  else { cards=touCard(season)+rateCard(season)+(S.kind==='일반용'?generalGuideCard(season):''); }
 
   $('#grid').innerHTML=cards;
   bind();
