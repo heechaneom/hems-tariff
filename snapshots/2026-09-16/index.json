@@ -1,6 +1,6 @@
 {
  "date": "2026-09-16",
- "collected_at": "2026-09-16 10:56 KST",
+ "collected_at": "2026-09-16 11:33 KST",
  "items": [
   {
    "name": "kepco_notice",
@@ -8,7 +8,7 @@
    "url": "https://www.kepco.co.kr/home/media/newsroom/notice/boardList.do?boardMngNo=14",
    "kind": "html",
    "status": 200,
-   "bytes": 7555,
+   "bytes": 2038,
    "title": "공지사항 | 뉴스룸 | 홍보센터 | 한국전력공사"
   },
   {
@@ -17,7 +17,7 @@
    "url": "https://www.kepco.co.kr/home/disclosure/regulations/revision/revision/boardList.do?boardMngNo=69",
    "kind": "html",
    "status": 200,
-   "bytes": 6570,
+   "bytes": 1024,
    "title": "제ㆍ개정 예고 | 내부규정 | 정보공개 | 한국전력공사"
   },
   {
@@ -26,7 +26,7 @@
    "url": "https://www.kepco.co.kr/home/disclosure/regulations/internalrule/boardList.do",
    "kind": "html",
    "status": 200,
-   "bytes": 6371,
+   "bytes": 863,
    "title": "사규 및 하위 규범 | 내부규정 | 정보공개 | 한국전력공사"
   },
   {
@@ -35,7 +35,7 @@
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%A0%84%EA%B8%B0%EC%9A%94%EA%B8%88",
    "kind": "html",
    "status": 200,
-   "bytes": 8291,
+   "bytes": 5615,
    "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
@@ -44,7 +44,7 @@
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%88%98%EC%9A%94%EB%B0%98%EC%9D%91",
    "kind": "html",
    "status": 200,
-   "bytes": 8335,
+   "bytes": 5659,
    "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
@@ -53,7 +53,7 @@
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%97%90%EB%84%88%EC%A7%80%EC%BA%90%EC%8B%9C%EB%B0%B1",
    "kind": "html",
    "status": 200,
-   "bytes": 7024,
+   "bytes": 4371,
    "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
@@ -62,7 +62,7 @@
    "url": "https://kpx.or.kr/board.es?mid=a10102000000&bid=0088",
    "kind": "html",
    "status": 200,
-   "bytes": 6264,
+   "bytes": 956,
    "title": "목록 | 사전정보공표 < 정보공개 : 전력거래소"
   },
   {
@@ -71,7 +71,7 @@
    "url": "https://www.kpx.or.kr/board.es?mid=a10101000000&bid=0026",
    "kind": "html",
    "status": 200,
-   "bytes": 6286,
+   "bytes": 791,
    "title": "목록 | 정보공개제도 < 정보공개 : 전력거래소"
   },
   {
@@ -80,7 +80,7 @@
    "url": "https://www.kpx.or.kr/board.es?mid=a10403010000&bid=0032",
    "kind": "html",
    "status": 200,
-   "bytes": 6400,
+   "bytes": 1053,
    "title": "목록 | 전력수급개요 < 전력수급 < 주요사업 : 전력거래소"
   }
  ]

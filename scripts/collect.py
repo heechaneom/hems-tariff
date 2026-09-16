@@ -42,7 +42,20 @@ def to_text(raw: bytes, resp) -> str:
     t = html.unescape(t).replace('\xa0', ' ')
     t = re.sub(r'[ \t\r]+', ' ', t)
     t = re.sub(r'\n\s*\n+', '\n', t)
-    return t.strip()
+    return trim_to_board(t.strip())
+
+
+DATE_RE = re.compile(r'20\d\d[./-]\s?\d{1,2}[./-]\s?\d{1,2}')
+
+
+def trim_to_board(t: str) -> str:
+    """사이트 메뉴·푸터를 버리고 게시글 목록(날짜가 있는 구간)만 남긴다. 루틴이 읽는 토큰을 절반 이하로."""
+    lines = [l for l in t.split('\n') if len(l.strip()) > 1]
+    idx = [i for i, l in enumerate(lines) if DATE_RE.search(l)]
+    if len(idx) < 2:
+        return '\n'.join(lines[:400])
+    lo, hi = max(0, idx[0] - 6), min(len(lines), idx[-1] + 4)
+    return '\n'.join(lines[lo:hi][:400])
 
 
 def main():
