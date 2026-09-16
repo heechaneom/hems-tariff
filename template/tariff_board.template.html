@@ -900,7 +900,7 @@ function render(){
   let cards='';
   if(S.view==='DR'){ cards=drCard()+kookCard()+plusCard()+drTypesCard()+drRegionCard()+drHemsCard()+incentiveCard(); $('#grid').innerHTML=cards; bind(); return; }
   if(S.view==='이력·용어'){ cards=policyCard()+incentiveCard()+regionCard()+glossaryCard()+historyCard(); $('#grid').innerHTML=cards; bind(); return; }
-  if(S.kind==='주택용'){ cards=progCard(season)+houseTouCard(season)+hpCard(season)+touCard(season); }
+  if(S.kind==='주택용'){ cards=progCard(season)+touCard(season)+houseTouCard(season)+hpCard(season); }
   else if(S.kind==='EV 충전전력'){ cards=touCard(season)+evCard(season); }
   else { cards=touCard(season)+rateCard(season); }
 

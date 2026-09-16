@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
       - uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
+        with:
+          python-version: '3.12'
       - run: pip install requests
       - run: python scripts/collect.py
       - name: commit snapshots
@@ -19,5 +22,9 @@ jobs:
           git config user.name "collector"
           git config user.email "collector@hems-tariff"
           git add snapshots
-          git diff --cached --quiet && echo "no change" || git commit -m "snapshots: $(TZ=Asia/Seoul date +%F)"
-          git push
+          if git diff --cached --quiet; then
+            echo "no change"; exit 0
+          fi
+          git commit -m "snapshots: $(TZ=Asia/Seoul date +%F)"
+          git pull --rebase origin main
+          git push origin HEAD:main
