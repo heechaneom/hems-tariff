@@ -1,6 +1,6 @@
 # 전력거래소 공지사항
 # https://www.kpx.or.kr/board.es?mid=a10101000000&bid=0026
-# 2026-09-28 10:15 KST status=200
+# 2026-09-28 14:41 KST status=200
 
  등록일 
  조회수 

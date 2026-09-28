@@ -1,6 +1,6 @@
 # 한전 기본공급약관·시행세칙 게시판
 # https://www.kepco.co.kr/home/disclosure/regulations/internalrule/boardList.do
-# 2026-09-28 10:15 KST status=200
+# 2026-09-28 14:41 KST status=200
 
  지침 
  기준 

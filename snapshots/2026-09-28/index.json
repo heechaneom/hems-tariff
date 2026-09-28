@@ -1,6 +1,6 @@
 {
  "date": "2026-09-28",
- "collected_at": "2026-09-28 10:15 KST",
+ "collected_at": "2026-09-28 14:41 KST",
  "items": [
   {
    "name": "kepco_notice",
@@ -34,24 +34,27 @@
    "desc": "정책브리핑 검색: 전기요금",
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%A0%84%EA%B8%B0%EC%9A%94%EA%B8%88",
    "kind": "html",
-   "status": "error",
-   "error": "HTTPSConnectionPool(host='www.korea.kr', port=443): Max retries exceeded with url: /news/policyNewsList.do?srchWord=%EC%A0%84%EA%B8%B0%EC%9A%94%EA%B8%88 (Caused by ConnectTimeoutError(<HTTPSConnection"
+   "status": 200,
+   "bytes": 4542,
+   "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
    "name": "koreakr_search_dr",
    "desc": "정책브리핑 검색: 수요반응",
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%88%98%EC%9A%94%EB%B0%98%EC%9D%91",
    "kind": "html",
-   "status": "error",
-   "error": "HTTPSConnectionPool(host='www.korea.kr', port=443): Max retries exceeded with url: /news/policyNewsList.do?srchWord=%EC%88%98%EC%9A%94%EB%B0%98%EC%9D%91 (Caused by ConnectTimeoutError(<HTTPSConnection"
+   "status": 200,
+   "bytes": 4575,
+   "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
    "name": "koreakr_search_cashback",
    "desc": "정책브리핑 검색: 에너지캐시백",
    "url": "https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%97%90%EB%84%88%EC%A7%80%EC%BA%90%EC%8B%9C%EB%B0%B1",
    "kind": "html",
-   "status": "error",
-   "error": "HTTPSConnectionPool(host='www.korea.kr', port=443): Max retries exceeded with url: /news/policyNewsList.do?srchWord=%EC%97%90%EB%84%88%EC%A7%80%EC%BA%90%EC%8B%9C%EB%B0%B1 (Caused by ConnectTimeoutErro"
+   "status": 200,
+   "bytes": 3292,
+   "title": "정책뉴스 | 뉴스 | 대한민국 정책브리핑"
   },
   {
    "name": "kpx_predisclosure",
@@ -59,7 +62,7 @@
    "url": "https://kpx.or.kr/board.es?mid=a10102000000&bid=0088",
    "kind": "html",
    "status": 200,
-   "bytes": 954,
+   "bytes": 955,
    "title": "목록 | 사전정보공표 < 정보공개 : 전력거래소"
   },
   {
