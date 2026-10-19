@@ -1,6 +1,6 @@
 {
  "date": "2026-10-19",
- "collected_at": "2026-10-19 10:15 KST",
+ "collected_at": "2026-10-19 14:02 KST",
  "items": [
   {
    "name": "kepco_notice",
@@ -17,7 +17,7 @@
    "url": "https://www.kepco.co.kr/home/disclosure/regulations/revision/revision/boardList.do?boardMngNo=69",
    "kind": "html",
    "status": 200,
-   "bytes": 1014,
+   "bytes": 1015,
    "title": "제ㆍ개정 예고 | 내부규정 | 정보공개 | 한국전력공사"
   },
   {

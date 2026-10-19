@@ -1,6 +1,6 @@
 # 정책브리핑 검색: 전기요금
 # https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%A0%84%EA%B8%B0%EC%9A%94%EA%B8%88
-# 2026-10-19 10:15 KST status=200
+# 2026-10-19 14:02 KST status=200
 
  뉴스 
  정책뉴스 
