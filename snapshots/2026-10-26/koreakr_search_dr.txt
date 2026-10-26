@@ -1,6 +1,6 @@
 # 정책브리핑 검색: 수요반응
 # https://www.korea.kr/news/policyNewsList.do?srchWord=%EC%88%98%EC%9A%94%EB%B0%98%EC%9D%91
-# 2026-10-26 10:09 KST status=200
+# 2026-10-26 14:07 KST status=200
 
  사이트 이동경로
  뉴스 
